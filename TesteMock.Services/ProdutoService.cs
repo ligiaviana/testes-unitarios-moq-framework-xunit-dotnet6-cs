@@ -21,7 +21,16 @@ namespace TesteMock.Services
         }
         public Produto AddProduto(int id, string nome, string codigo)
         {
-            return _repository.AddProduto(id, nome, codigo);
+            if(GetProduto(id) == null)
+            {
+                return _repository.SaveProduto(id, nome, codigo);
+            }
+            return null;
+        }
+
+        public Produto GetProduto(int id)
+        {
+            return _repository.GetProduto(id);
         }
     }
 }

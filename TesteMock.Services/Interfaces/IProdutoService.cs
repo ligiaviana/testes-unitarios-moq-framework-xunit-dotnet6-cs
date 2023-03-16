@@ -10,5 +10,6 @@ namespace TesteMock.Services.Interfaces
     public interface IProdutoService
     {
         Produto AddProduto(int id, string nome, string codigo);
+        Produto GetProduto(int id);
     }
 }

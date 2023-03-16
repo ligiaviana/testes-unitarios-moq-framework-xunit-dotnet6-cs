@@ -10,7 +10,15 @@ namespace TesteMock.Repository
 {
     internal class ProdutoRepository : IProdutoRepository
     {
-        public Produto AddProduto(int id, string nome, string codigo)
+        public Produto GetProduto(int id)
+        {
+            return new Produto
+            {
+                ProdutoId = id,
+            };
+        }
+
+        public Produto SaveProduto(int id, string nome, string codigo)
         {
             StreamWriter file = new StreamWriter("./produto.txt", true);
             file.WriteLine($"{id}; {nome}; {codigo}");

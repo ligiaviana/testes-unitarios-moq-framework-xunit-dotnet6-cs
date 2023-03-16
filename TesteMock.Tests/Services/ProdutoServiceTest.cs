@@ -14,13 +14,13 @@ namespace TesteMock.Tests.Services
     public class ProdutoServiceTest
     {
         private readonly IProdutoService service;
-        private readonly Mock<IProdutoRepository> repository;
+        private readonly Mock<IProdutoRepository> mockRepository;
 
         public ProdutoServiceTest()
         {
-            repository= new Mock<IProdutoRepository>();
+            mockRepository= new Mock<IProdutoRepository>();
             service = new ProdutoService(
-                repository.Object
+                mockRepository.Object
                 );
         }
 
@@ -33,7 +33,7 @@ namespace TesteMock.Tests.Services
 
             service.AddProduto(id, nome, codigo);
 
-            repository.Verify(p => p.AddProduto(id, nome, codigo), Times.Once);
+            mockRepository.Verify(p => p.SaveProduto(id, nome, codigo), Times.Once);
         }
 
         [Fact(DisplayName = "AddProduto: 02 - Deve retornar o valor recebido de repository.AddProduto")]
@@ -50,9 +50,13 @@ namespace TesteMock.Tests.Services
                 Codigo = codigo
             };
 
-            repository
-                .Setup(p => p.AddProduto(id, nome, codigo))
+            mockRepository
+                .Setup(p => p.SaveProduto(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns( produtoEsperado );
+
+            mockRepository
+               .Setup(p => p.GetProduto(It.IsAny<int>()))
+               .Returns(It.IsAny<Produto>());
 
             Produto produtoRetornado = service.AddProduto(id, nome, codigo);
 
